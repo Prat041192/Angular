@@ -1,0 +1,56 @@
+.alert {
+  z-index: 1;
+  width: auto;
+  right: 0;
+  bottom: 80px;
+  color: #555;
+  border-radius: 10px;
+  font-family: Tahoma, Geneva, Arial, sans-serif;
+  font-size: 11px;
+  padding: 10px 10px 10px 36px;
+  margin: 10px;
+  background: #fff8c4;
+  border: 1px solid #f2c779;
+  position: absolute;
+}
+
+
+.closebtn {
+    margin-left: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: red;
+}
+
+
+.alert span {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration-color: black;
+}
+
+
+.notifySuccess {
+  background-color: #67FB50 ;
+}
+
+.notifyError {
+  background-color: #FF8065;
+}
+
+.notifyWarning {
+  background-color:  #FBFB50;
+}
+
+.notifyInfo {
+  background-color: #50F6FB  ;
+}

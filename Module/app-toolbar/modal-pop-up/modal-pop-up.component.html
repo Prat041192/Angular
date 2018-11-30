@@ -1,0 +1,217 @@
+<div #addnode class="modal" id="addnode" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="addNodeLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addNodeLabel">Node Details</h5>
+          <button type="button" class="close"  aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+       <form #nodeForm="ngForm" name="nodeForm" (ngSubmit)="submitForm('nodeForm')" aria-hidden="true">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3  form-group">
+                <select class="form-control" id="protocol" [(ngModel)]="modal.protocol" name="protocol" required >
+                  <option value="http">http</option>
+                  <option value="https">https</option>
+                </select>
+              </div>
+              <div class="col-md-6  form-group">
+                <input type="text" class="form-control" id="address" [(ngModel)]="modal.address" name="address" placeholder="End Point" required #address>
+              </div>
+              <div class="col-md-3  form-group">
+                <input type="text" class="form-control" id="port" [(ngModel)]="modal.port" name="port" placeholder="Port" required >
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" onclick="$('.modal').modal('hide')" [disabled]="!nodeForm.form.valid">Add Node</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+<div #addservice  class="modal" id="addservice" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="serviceLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="serviceLabel">Service Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #serviceForm="ngForm" (ngSubmit)="submitForm('serviceForm')">
+        <div class="modal-body">
+          <div class="container">
+            <div class="form-group">
+              <label for="serviceName">Name</label>
+              <input type="text" class="form-control" id="serviceName" required [(ngModel)]="serviceObj.service_spec.name" name="serviceName"/>
+            </div>
+             <div class="form-group">
+              <label for="serviceImage">Image</label>
+              <input type="text" class="form-control" id="serviceImage" required [(ngModel)]="serviceObj.service_spec.image" name="serviceImage"/>
+            </div>
+            <div class="form-group">
+              <label for="serviceImageVersion">Image Version</label>
+              <input type="text" class="form-control" id="serviceImageVersion" [(ngModel)]="serviceObj.service_spec.image_version" name="serviceImageVersion"/>
+            </div>
+            <div class="form-group">
+              <label for="serviceArgs">Service Arguments</label>
+              <textarea class="form-control" id="serviceArgs" [(ngModel)]="serviceObj.service_spec.arguments" name="serviceArgs"> </textarea>
+            </div>
+            <div class="form-group">
+              <label for="servicePriviledges">Privileged</label>
+              <select type="text" class="form-control" id="servicePriviledges" name="servicePriviledges" [(ngModel)]="serviceObj.service_spec.privileged">
+                <option value="false">False</option>
+                <option value="true">True</option>
+              </select>
+            </div>
+             <div class="form-group" data-toggle="managerType">
+              <label for="managedServiceInfo">Managed</label>
+              <select type="text" class="form-control" id="managedServiceInfo" name="managedServiceInfo" [(ngModel)]="serviceObj.service_management_info.managed">
+                <option [ngValue]="false">False</option>
+                <option [ngValue]="true">True</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="!serviceObj.service_management_info.managed">
+              <label for="managerID" >Manager ID</label>
+               <input type="text" class="form-control" id="managerID" name="managerID" [(ngModel)]="serviceObj.service_management_info.manager_id" >
+            </div>
+            <div class="form-group" >
+              <label for="managerType" >Manager Type</label>
+              <select type="text" class="form-control" id="managerType" name="managerType" [(ngModel)]="serviceObj.service_management_info.manager_type">
+                <option value="docker_swarm">Docker Swarm</option>
+              </select>
+            </div>
+            <div class="form-group" >
+              <label for="serviceMode" >Mode</label>
+              <select type="text" class="form-control" id="serviceMode" name="serviceMode" [(ngModel)]="serviceObj.service_management_info.mode">
+                <option value="replicated">Replicated</option>
+                <option value="global">Global</option>
+              </select>
+            </div>
+             <div class="form-group" >
+              <label for="maxInstances" >Max Instances</label>
+               <input type="text" class="form-control" id="maxInstances" name="maxInstances" [(ngModel)]="serviceObj.service_management_info.max_instances" >
+            </div>
+             <div class="form-group">
+              <label for="requiredNetwork" >Required Network</label>
+              <select type="text" class="form-control" id="requiredNetwork" name="requiredNetwork" [(ngModel)]="serviceObj.service_spec.required_networks">
+                <option value="my_network">My Network</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="requireProps">Requires</label>
+              <div class="row">
+                <input class="form-control col-md-5" type="text" placeholder="Name" id="requireProps" name="requireProps"
+                       [(ngModel)]="serviceObj.service_spec.requires[0].name">
+                <input class="form-control col-md-3" type="text" placeholder="Unit" name="requireUnit"  [(ngModel)]="serviceObj.service_spec.requires[0].unit">
+                <input class="form-control col-md-3" type="text" placeholder="Value" name="requireValue" [(ngModel)]="serviceObj.service_spec.requires[0].value">
+                <button class="btn btn-light col-md-1 fa fa-plus-square" (click)="addNewRow($event)"></button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="providesProps">Provides</label>
+              <div class="row">
+                <input class="form-control col-md-5" type="text" placeholder="Name" id="providesProps" name="providesProps" [(ngModel)]="serviceObj.service_spec.provides[0].name">
+                <input class="form-control col-md-3" type="text" placeholder="Unit" name="providesUnit" [(ngModel)]="serviceObj.service_spec.provides[0].unit">
+                <input class="form-control col-md-3" type="text" placeholder="Value" name="providesValue" [(ngModel)]="serviceObj.service_spec.provides[0].value">
+                <button class="btn btn-light col-md-1 fa fa-plus-square" (click)="addNewRow($event)"></button>
+              </div>
+            </div>
+             <!--<div class="form-group">-->
+              <!--<label for="portDestination">Public Ports</label>-->
+              <!--<div class="row">-->
+                <!--<input class="form-control col-md-5" type="text" placeholder="Destination" id="portDestination" name="portDestination"-->
+                       <!--[(ngModel)]="serviceObj.service_spec.public_ports[0].destination">-->
+                <!--<input class="form-control col-md-3" type="text" placeholder="Source" name="portSource" [(ngModel)]="serviceObj.service_spec.public_ports[0].source">-->
+                <!--<input class="form-control col-md-3" type="text" placeholder="Type" name="portType" [(ngModel)]="serviceObj.service_spec.public_ports[0].type">-->
+                <!--<button class="btn btn-light col-md-1 fa fa-plus-square" (click)="addNewRow($event)"></button>-->
+              <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+              <label for="envVariable">Environment Variable</label>
+              <div class="row">
+                <input class="form-control col-md-6" type="text" placeholder="Key" id="envVariable">
+                <input class="form-control col-md-5" type="text" placeholder="Value">
+                <button class="btn btn-light col-md-1 fa fa-plus-square" (click)="addNewRow($event)"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" onclick="$('.modal').modal('hide')" [disabled]="!serviceForm.form.valid">Add Service</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+<div #removenode  class="modal" id="removenode" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="removeNodeLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeNodeLabel">Confirm Delete Node</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #removenodeForm="ngForm" (ngSubmit)="submitForm('removeNode')">
+          <div *ngFor="let idToDelete of removeIdList">
+            <span>
+              {{idToDelete}}
+            </span>
+          </div>
+          <div class="modal-footer">
+          <button type="submit" class="btn btn-info" onclick="$('.modal').modal('hide')">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+<div #removeservice  class="modal" id="removeservice" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="removeServiceLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeServiceLabel">Confirm Delete Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #remServiceForm="ngForm" name="removeSerForm" (ngSubmit)="submitForm('removeSerForm')">
+          <div class="modal-body">
+            <table class="table table-sm table-condensed">
+              <thead class="bg-light">
+                <tr>
+                  <th>Service ID</th>
+                </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngFor="let idToDelete of removeIdList">
+                <tr>
+                  <td [id] = "idToDelete">
+                    {{idToDelete}}
+                  </td>
+                </tr>
+              </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info" onclick="$('.modal').modal('hide')">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+

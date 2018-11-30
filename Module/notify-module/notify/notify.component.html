@@ -1,0 +1,8 @@
+<div [hidden]="!show" class="flex-container" >
+  <div [class]="notificationClass">
+      <span>
+            {{message}}
+      </span>
+       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  </div>
+</div>

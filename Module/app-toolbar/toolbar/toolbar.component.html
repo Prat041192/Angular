@@ -1,0 +1,17 @@
+<div class="flex-container">
+      <div class="toolList btn-group-sm" *ngFor="let icon of toolList">
+        <button type="button" class="btn btn-light"
+             (click)="iconClicked(icon.clickMethod, $event)"
+             data-toggle="modal"
+             [attr.data-target]="type">
+          <span>
+            {{icon.name}}
+          </span>
+          <span>
+            <i [class]="icon.iconClass" ></i>
+          </span>
+        </button>
+      </div>
+</div>
+ <hr/>
+<app-modal-pop-up></app-modal-pop-up>
